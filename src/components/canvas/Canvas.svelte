@@ -86,12 +86,6 @@
                 document.querySelector("#ascii").innerHTML = div.innerHTML;
             }
 
-            // console.log(rendererSize);
-            // console.log(width)
-            // console.log(height)
-            // console.log(renderTarget)
-            // console.log(read)
-
             renderer.setRenderTarget(null);
         }
 
