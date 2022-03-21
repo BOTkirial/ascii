@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-const loader = new FBXLoader();
+// const loader = new FBXLoader();
 // const loader = new OBJLoader();
+const loader = new GLTFLoader();
 
 class Model {
 
@@ -20,11 +22,8 @@ class Model {
             this.url,
             // called when the resource is loaded
             function (model) {
-                console.log("loaded")
-                model.scale.set(this.scale, this.scale, this.scale);
-                // model.children[0].material = new THREE.MeshBasicMaterial({color: 0x0000FF})
-                // console.log(model)
-                scene.add(model)
+                model.scene.scale.set(this.scale, this.scale, this.scale);
+                scene.add(model.scene);
             }.bind(this)
         );
     }

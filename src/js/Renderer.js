@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 class Renderer extends THREE.WebGLRenderer {
 
-    constructor() {
+    constructor(width, height) {
         // créé la canvas pour dessiner
         const canvas = document.createElement("canvas");
         canvas.setAttribute("id", "canvas");
@@ -14,7 +14,7 @@ class Renderer extends THREE.WebGLRenderer {
         this.outputEncoding = THREE.sRGBEncoding;
         // résolution et taille de la canvas
         this.setPixelRatio(window.devicePixelRatio);
-        this.setSize(Math.floor(window.innerWidth / 8), Math.floor(window.innerHeight / 8));
+        this.setSize(Math.floor(width), Math.floor(height));
 
         // créé les elements html pour afficher les infos de debug
         this.geometriesCountReference = document.createElement("p");

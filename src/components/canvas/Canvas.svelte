@@ -7,41 +7,49 @@
     import { onMount } from "svelte";
     import map from "../../js/utils.js";
 
+
+
     function setup() {
-        const renderer = new Renderer();
+
+        const ratio = window.innerWidth / window.innerHeight;
+        const height = Math.floor(window.innerHeight / 8);
+        const width = Math.ceil(height * ratio);
+
+
+        const renderer = new Renderer(
+            width,
+            height
+        );
 
         const scene = new Scene(new THREE.Color(0x000000), 65, 170);
         scene.setBackgroundColor(0x00000);
         scene.setLight();
-        scene.setFog();
+        // scene.setFog();
 
-        const globe = new Model("models/earth.fbx", 0.0035);
+        const globe = new Model("models/earth.glb", 0.005);
         globe.init(scene);
-
-        let rendererSize = new THREE.Vector2();
-        renderer.getSize(rendererSize);
-        const width = rendererSize.x;
-        const height = rendererSize.y;
 
         const camera = new THREE.PerspectiveCamera(
             45,
             width / height,
-            1,
+            0.1,
             10000
         );
-        camera.position.set(0, 0, 100);
+        camera.position.set(0, 0, 7);
         const controls = new OrbitControls(
             camera,
             document.querySelector("#ascii")
+            // renderer.domElement
         );
-        controls.enableZoom = false;
+        controls.enableZoom = true;
 
         const renderTarget = new THREE.WebGLRenderTarget(width, height, {
             format: THREE.RGBAFormat,
             type: THREE.FloatType,
         });
 
-        let opacity = "Ñ@#W$9876543210?!abc;:+=-,._ ";
+        // let opacity = "Ñ@#W$9876543210?!abc;:+=-,._ ";
+        let opacity = "Ñ@#W$9876543210?!abc;:+=-,. ";
 
         function createASCII() {
             renderer.setRenderTarget(renderTarget);
@@ -67,13 +75,18 @@
                     const r = read[pixelIndex + 0];
                     const g = read[pixelIndex + 1];
                     const b = read[pixelIndex + 2];
-                    let brightness = r + g + b;
+                    let brightness = (r + g + b) / 3;
+
+                    if (b > r && b > g) brightness *= 0.5;
+                    if (g > r && g > b) brightness *= 35;
+                    if (r > b && r > g) brightness *= 5;
+
                     let opacityIndex = Math.floor(
-                        map(brightness, 0, 3, opacity.length - 1, 0)
+                        map(brightness, 0, 1, opacity.length - 1, 0, true)
                     );
+
                     let symbol = opacity[opacityIndex];
                     if (symbol == " ") symbol = "&nbsp;";
-                    // symbol = ".";
                     string += symbol;
                 }
                 row.innerHTML = string;
@@ -105,29 +118,34 @@
 </script>
 
 <div>
-    coucou
     <div id="ascii" />
 </div>
 
 <style>
     #ascii {
         /* taille des charactères et de la ligne */
-        font-size: 8pt;
+        font-size: 9pt;
         line-height: 6pt;
         font-weight: 900;
         /* cursor main */
         cursor: grab;
         /* text en dégradé */
+        background-color: #ff3cac;
         background-image: linear-gradient(
-            106.1deg,
-            rgba(69, 242, 143, 0.52) 10.2%,
-            rgba(14, 228, 175, 0.61) 83.6%
+            225deg,
+            #ff3cac 0%,
+            #784ba0 50%,
+            #2b86c5 100%
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-family: "Courier New", Courier, monospace;
-    }
-    #canvas {
-        display: none;
-    }
+        /* positionne le text */
+        white-space: nowrap;
+        text-align: center;
+        /* centre le dans la fenetre */
+        position: absolute;
+        left: 50vw;
+        top: 50vh;
+        transform: translateX(-50%) translateY(-50%);
+}
 </style>
