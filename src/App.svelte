@@ -7,10 +7,11 @@
 
 <main>
 
-	<!-- <List></List> -->
+	<List></List>
 	
 	<!-- <AnimatedText text="hello world" /> -->
 	<!-- <AnimatedText text="YO les boys c'est un super texte animé ça" /> -->
+	
 	<Canvas />
 </main>
 

@@ -1,8 +1,20 @@
-html, body {
+* {
     margin: 0;
     padding: 0;
+}
+
+body {
     background-color: rgb(30, 30, 30);
     font-family: mono;
+}
+
+#canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
+    transform: translateX(-50%) translateY(-50%) scale(8);
+    z-index: -1;
 }
 
 @font-face {

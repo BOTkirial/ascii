@@ -23,6 +23,8 @@ class Model {
             // called when the resource is loaded
             function (model) {
                 model.scene.scale.set(this.scale, this.scale, this.scale);
+                model.scene.rotation.setFromVector3(this.rotation);
+                // model.scene.visible = false;
                 scene.add(model.scene);
             }.bind(this)
         );

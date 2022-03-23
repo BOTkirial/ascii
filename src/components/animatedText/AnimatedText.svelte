@@ -1,10 +1,10 @@
 <script>
-import { onMount } from "svelte";
-
+    import { onMount } from "svelte";
 
     let symbols = "@?!€01$&#%§";
     let originalText = $$props.text;
     let displayedText = encryptText(originalText);
+    let delay = $$props.delay;
 
     function encryptText(text) {
         let encryptedText = "";
@@ -16,20 +16,28 @@ import { onMount } from "svelte";
     }
 
     function decryptText(encryptedText, step = 0) {
-        let decryptedTextForThisStep = originalText.slice(0, step) + encryptText(originalText).slice(step, originalText.length);
+        let decryptedTextForThisStep =
+            originalText.slice(0, step) +
+            encryptText(originalText).slice(step, originalText.length);
         displayedText = decryptedTextForThisStep;
-        if(step === originalText.length) return decryptedTextForThisStep;
+        if (step === originalText.length) return decryptedTextForThisStep;
         window.setTimeout(function () {
             decryptText(encryptedText, step + 1);
         }, 100);
     }
 
-    onMount(()=>{
-        decryptText(originalText)
-    })
+    onMount(() => {
+        window.setTimeout(() => {
+            decryptText(originalText)
+        }, delay);
+    });
 </script>
 
-<span on:click={()=>{decryptText(originalText)}}>{displayedText}</span>
+<span
+    on:click={() => {
+        decryptText(originalText);
+    }}>{displayedText}</span
+>
 
 <style>
     span {
