@@ -2,13 +2,14 @@ import * as THREE from "three";
 
 class Renderer extends THREE.WebGLRenderer {
 
-    constructor(width, height) {
+    constructor(width, height, alpha = false) {
         // créé la canvas pour dessiner
         const canvas = document.createElement("canvas");
         canvas.setAttribute("id", "canvas");
         document.body.appendChild(canvas);
         // envoie la canvas a la class héritée
         super({ canvas: canvas });
+        this.setClearColor(0x000000, 0)
         // parametrage des couleurs
         this.toneMapping = THREE.LinearToneMapping;
         this.outputEncoding = THREE.sRGBEncoding;

@@ -13,13 +13,10 @@
         const height = Math.floor((window.innerHeight / 8) * 0.9);
         const width = Math.ceil(height * ratio);
 
-        console.log("height : " + height, "width : " + width);
-
-        const renderer = new Renderer(width, height);
+        const renderer = new Renderer(width, height, true);
 
         // créé la scène
         const scene = new Scene(new THREE.Color(0x000000), 65, 170);
-        scene.setBackgroundColor(0x000000);
         scene.setLight();
 
         // instancie le globe terrestre
