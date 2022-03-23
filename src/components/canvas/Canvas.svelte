@@ -10,8 +10,10 @@
     function setup() {
         // détermine la hauteur du renderer
         const ratio = window.innerWidth / window.innerHeight;
-        const height = Math.floor(window.innerHeight / 8) * 0.9;
+        const height = Math.floor((window.innerHeight / 8) * 0.9);
         const width = Math.ceil(height * ratio);
+
+        console.log("height : " + height, "width : " + width);
 
         const renderer = new Renderer(width, height);
 
@@ -41,8 +43,8 @@
         // créé un orbit control pour la caméra
         const controls = new OrbitControls(
             camera,
-            // document.querySelector("#ascii")
-            renderer.domElement
+            document.querySelector("#ascii")
+            // renderer.domElement
         );
         controls.enableZoom = true;
         controls.minDistance = 2.7;
@@ -176,8 +178,7 @@
 
         function gameloop() {
             renderer.update(scene, camera);
-            if (renderer.frame % 100 === 0) console.log(controls.getDistance());
-            // createASCII();
+            createASCII();
             controls.update();
             window.requestAnimationFrame(gameloop);
         }
@@ -221,5 +222,4 @@
         top: 50vh;
         transform: translateX(-50%) translateY(-50%);
     }
-
 </style>
