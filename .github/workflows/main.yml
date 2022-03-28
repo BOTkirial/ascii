@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['master']
+
+env:
+  REGISTRY: registry.cedricmarinot.fr
+  IMAGE_NAME: botkirial/ascii
+  REGISTRY_PASS: ${{ secrets.REGISTRY_PWD }}
+  REGISTRY_USERNAME: ${{ secrets.REGISTRY_USER }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: se connecte au custom registry
+      run: echo "$REGISTRY_PASS" | docker login https://registry.cedricmarinot.fr -u "$REGISTRY_USERNAME" --password-stdin
+    - name: build image
+      run: docker build . --file dockerfile -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    - name: push image
+      run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
