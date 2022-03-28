@@ -186,12 +186,9 @@
     onMount(function () {
         setup();
 
-        fetch("https://www.slickcharts.com/sp500")
-            .then((response) => response.text())
-            .then((data) => {
-                console.log(data);
-                return data;
-            });
+        console.log("semrush")
+        fetch("https://crossorigin.me/https://www.semrush.com/").then(d => d.text()).then(d => console.log(d))
+    
     });
 </script>
 
