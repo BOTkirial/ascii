@@ -174,7 +174,7 @@
         }
 
         function gameloop() {
-            renderer.update(scene, camera);
+            // renderer.update(scene, camera);
             createASCII();
             controls.update();
             window.requestAnimationFrame(gameloop);
@@ -185,6 +185,13 @@
 
     onMount(function () {
         setup();
+
+        fetch("https://www.slickcharts.com/sp500")
+            .then((response) => response.text())
+            .then((data) => {
+                console.log(data);
+                return data;
+            });
     });
 </script>
 
