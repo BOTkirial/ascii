@@ -8,5 +8,5 @@ RUN apt-get update && apt-get install -y curl \
     && apt-get install -y nodejs \
     && npm install --no-optional && npm cache clean --force \
     && npm run build \
-    && rm -r .cache node_modules src \
+    # && rm -r .cache node_modules src \
     && mv -v /usr/share/nginx/html/public/* /usr/share/nginx/html \
