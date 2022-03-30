@@ -2,17 +2,34 @@
 	import "./global.css";
 	import Canvas from "./components/canvas/Canvas.svelte";
 	import AnimatedText from "./components/animatedText/AnimatedText.svelte";
-	import List from "./components/list/List.svelte";
+	import { onMount } from "svelte";
+
+	let canvas, data;
+
+	function gameloop() {
+		canvas.update();
+		window.requestAnimationFrame(gameloop);
+	}
+
+	onMount(() => {
+		
+		fetch("http://localhost:5555/data").then((resp) => {
+			resp.text().then((body) => {
+				data = JSON.parse(body);
+				console.log(data)
+			});
+		});
+		
+		gameloop();
+
+	});
 </script>
 
 <main>
 
-	<!-- <List></List> -->
-	
-	<!-- <AnimatedText text="hello world" /> -->
-	<!-- <AnimatedText text="YO les boys c'est un super texte animé ça" /> -->
-	
-	<Canvas />
+	<AnimatedText text="hello world" />
+
+	<Canvas bind:this={canvas} />
 </main>
 
 <style>
