@@ -7,7 +7,7 @@
     import { onMount } from "svelte";
     import { map, LLAtoXYZ } from "../../js/utils.js";
 
-    function setup() {
+     function setup() {
         // détermine la hauteur du renderer
         const ratio = window.innerWidth / window.innerHeight;
         const height = Math.floor((window.innerHeight / 8) * 0.9);
@@ -185,10 +185,8 @@
 
     onMount(function () {
         setup();
-
-        console.log("semrush")
-        fetch("https://crossorigin.me/https://www.semrush.com/").then(d => d.text()).then(d => console.log(d))
-    
+        
+        
     });
 </script>
 
