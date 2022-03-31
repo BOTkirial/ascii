@@ -2,6 +2,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 const cheerio = require('cheerio');
+require('dotenv').config();
 
 // crée l'application
 var app = express()
@@ -41,13 +42,8 @@ function parseData(body) {
         results.push(value);
     })
 
-    console.log(results)
     return results
 }
-
-getData('https://www.slickcharts.com/sp500').then(value => {
-    parseData(value)
-})
 
 // renvoie index.html lorsqu'un user vas sur la route /
 app.get('/', (req, res) => {
@@ -57,6 +53,13 @@ app.get('/', (req, res) => {
 app.get('/data', (req, res) => {
     getData('https://www.slickcharts.com/sp500').then(value => {
         res.send(parseData(value))
+    })
+})
+
+app.get('/api', (req, res) => {
+    const search = req.query.search;
+    getData("https://api.geoapify.com/v1/geocode/search?text=" + search + "&apiKey=" + process.env.API_KEY).then(value => {
+        res.send(JSON.stringify(value));
     })
 })
 
