@@ -12,7 +12,7 @@
 		window.requestAnimationFrame(gameloop);
 	}
 
-	let fetchAPI = async () => {
+	let fetchData = async () => {
 		return fetch("http://localhost:5555/data").then((resp) => {
 			return resp.text().then((body) => {
 				const rawData = JSON.parse(body);
@@ -20,23 +20,31 @@
 				// récupère les n premieres entreprise
 				const n = 20;
 				for (let cpt = 0; cpt < columnCount * n; cpt += columnCount) {
-					let currentLine = {
-						index: rawData[cpt + 0],
-						company: rawData[cpt + 1],
-						symbol: rawData[cpt + 2],
-						weight: rawData[cpt + 3],
-						price: rawData[cpt + 4],
-						change: rawData[cpt + 5],
-						"%change": rawData[cpt + 6],
-					};
-					data.push(currentLine);
+					fetch("http://localhost:5555/api?search=" + rawData[cpt + 1]).then((resp)=>{
+						resp.json().then(json => {
+							const rep = JSON.parse(json);
+							let currentLine = {
+								index: rawData[cpt + 0],
+								company: rawData[cpt + 1],
+								symbol: rawData[cpt + 2],
+								weight: rawData[cpt + 3],
+								price: rawData[cpt + 4],
+								change: rawData[cpt + 5],
+								"%change": rawData[cpt + 6],
+								lat: rep.features[0].geometry.coordinates[0],
+								long: rep.features[0].geometry.coordinates[1],
+							};
+							data.push(currentLine);
+						})
+					});
 				}
+				console.log(data)
 				return data;
 			});
 		});
 	};
 
-	const response = fetchAPI();
+	const response = fetchData();
 
 	onMount(() => {
 		gameloop();
@@ -64,7 +72,7 @@
 
 <style>
 	ul {
-		max-width: 35%;
+		max-width: 34%;
 		margin-top: 50vh;
 		transform: translateY(-50%);
 	}
@@ -74,5 +82,10 @@
 		text-align: right;
 		height: 1.8em;
 		cursor: pointer;
+		margin-right: 0px;
+		transition: margin-right .05s;
+	}
+	span:hover {
+		margin-right: 15px;
 	}
 </style>

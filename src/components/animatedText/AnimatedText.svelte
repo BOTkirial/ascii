@@ -33,11 +33,7 @@
     });
 </script>
 
-<span
-    on:click={() => {
-        decryptText(originalText);
-    }}>{displayedText}</span
->
+<span>{displayedText}</span>
 
 <style>
     span {

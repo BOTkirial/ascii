@@ -12,8 +12,8 @@
     onMount(() => {
         // détermine la hauteur du renderer
         const ratio = window.innerWidth / window.innerHeight;
-        height = Math.floor((window.innerHeight / 8) * 0.95);
-        width = Math.floor(Math.ceil(height * ratio) * 0.65);
+        height = Math.floor((window.innerHeight / 8) * 0.8);
+        width = Math.floor(Math.ceil(height * ratio) * 0.8);
 
         renderer = new Renderer(width, height, true);
 
