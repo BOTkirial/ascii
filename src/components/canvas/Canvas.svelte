@@ -12,8 +12,8 @@
     onMount(() => {
         // détermine la hauteur du renderer
         const ratio = window.innerWidth / window.innerHeight;
-        height = Math.floor((window.innerHeight / 8) * 0.9);
-        width = Math.ceil(height * ratio);
+        height = Math.floor((window.innerHeight / 8) * 0.95);
+        width = Math.floor(Math.ceil(height * ratio) * 0.65);
 
         renderer = new Renderer(width, height, true);
 
@@ -31,12 +31,7 @@
         globe.init(scene);
 
         // créé et positionne une caméra
-        camera = new THREE.PerspectiveCamera(
-            45,
-            width / height,
-            0.1,
-            10000
-        );
+        camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
         camera.position.set(0, 0, 7);
 
         // créé un orbit control pour la caméra
@@ -159,13 +154,7 @@
         /* cursor main */
         cursor: grab;
         /* text en dégradé */
-        background-color: #ff3cac;
-        background-image: linear-gradient(
-            225deg,
-            #ff3cac 0%,
-            #784ba0 50%,
-            #2b86c5 100%
-        );
+        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         /* positionne le text */
@@ -173,8 +162,11 @@
         text-align: center;
         /* centre le dans la fenetre */
         position: absolute;
-        left: 50vw;
         top: 50vh;
-        transform: translateX(-50%) translateY(-50%);
+        right: 3vw;
+        transform: translateY(-50%);
+        /* border autour de la canvas */
+        border: 1px #f6d365 dashed;
+        padding: 10px;
     }
 </style>

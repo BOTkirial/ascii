@@ -28,7 +28,7 @@
 
     onMount(() => {
         window.setTimeout(() => {
-            decryptText(originalText)
+            decryptText(originalText);
         }, delay);
     });
 </script>
@@ -42,15 +42,9 @@
 <style>
     span {
         /* taille du text */
-        font-size: 1.3em;
+        font-size: 1.1em;
         /* text en dégradé de couleur */
-        background-color: #ff3cac;
-        background-image: linear-gradient(
-            225deg,
-            #ff3cac 0%,
-            #784ba0 50%,
-            #2b86c5 100%
-        );
+        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
