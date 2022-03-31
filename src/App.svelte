@@ -13,14 +13,14 @@
 	}
 
 	let fetchData = async () => {
-		return fetch("http://localhost:5555/data").then((resp) => {
+		return fetch("https://ascii.cedricmarinot.fr/data").then((resp) => {
 			return resp.text().then((body) => {
 				const rawData = JSON.parse(body);
 				let data = [];
 				// récupère les n premieres entreprise
 				const n = 20;
 				for (let cpt = 0; cpt < columnCount * n; cpt += columnCount) {
-					fetch("http://localhost:5555/api?search=" + rawData[cpt + 1]).then((resp)=>{
+					fetch("https://ascii.cedricmarinot.fr/api?search=" + rawData[cpt + 1]).then((resp)=>{
 						resp.json().then(json => {
 							const rep = JSON.parse(json);
 							let currentLine = {
