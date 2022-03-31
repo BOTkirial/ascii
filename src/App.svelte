@@ -12,37 +12,31 @@
 		window.requestAnimationFrame(gameloop);
 	}
 
-	let fetchData = async () => {
-		return fetch("https://ascii.cedricmarinot.fr/data").then((resp) => {
-			return resp.text().then((body) => {
-				const rawData = JSON.parse(body);
-				let data = [];
-				// récupère les n premieres entreprise
-				const n = 20;
-				for (let cpt = 0; cpt < columnCount * n; cpt += columnCount) {
-					fetch("https://ascii.cedricmarinot.fr/api?search=" + rawData[cpt + 1]).then((resp)=>{
-						resp.json().then(json => {
-							const rep = JSON.parse(json);
-							let currentLine = {
-								index: rawData[cpt + 0],
-								company: rawData[cpt + 1],
-								symbol: rawData[cpt + 2],
-								weight: rawData[cpt + 3],
-								price: rawData[cpt + 4],
-								change: rawData[cpt + 5],
-								"%change": rawData[cpt + 6],
-								lat: rep.features[0].geometry.coordinates[0],
-								long: rep.features[0].geometry.coordinates[1],
-							};
-							data.push(currentLine);
-						})
-					});
-				}
-				console.log(data)
-				return data;
-			});
-		});
-	};
+	async function fetchData() {
+		let data = [];
+		const n = 20; // le nombre d'entreprises récupérées
+		const rawData = await fetch("http://localhost:5555/data");
+		const rawDataJSON = await rawData.text();
+		const dataJSON = JSON.parse(rawDataJSON);
+		for (let cpt = 0; cpt < columnCount * n; cpt += columnCount) {
+			const rawGeoData = await fetch("http://localhost:5555/api?search=" + rawData[cpt + 1]);
+			const rawGeoDataJSON = await rawGeoData.json();
+			const geoDataJSON = JSON.parse(rawGeoDataJSON);
+			let currentLine = {
+				index: dataJSON[cpt + 0],
+				company: dataJSON[cpt + 1],
+				symbol: dataJSON[cpt + 2],
+				weight: dataJSON[cpt + 3],
+				price: dataJSON[cpt + 4],
+				change: dataJSON[cpt + 5],
+				"%change": dataJSON[cpt + 6],
+				lat: geoDataJSON.features[0].geometry.coordinates[0],
+				long: geoDataJSON.features[0].geometry.coordinates[1],
+			};
+			data.push(currentLine);
+		}
+		return data;
+	}
 
 	const response = fetchData();
 
@@ -83,7 +77,7 @@
 		height: 1.8em;
 		cursor: pointer;
 		margin-right: 0px;
-		transition: margin-right .05s;
+		transition: margin-right 0.05s;
 	}
 	span:hover {
 		margin-right: 15px;
