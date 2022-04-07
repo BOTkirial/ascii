@@ -6,6 +6,7 @@
     import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
     import { map, LLAtoXYZ } from "../../js/utils.js";
     import { onMount } from "svelte";
+    import { TWEEN } from "three/examples/jsm/libs/tween.module.min.js";
 
     let renderer, scene, camera, controls, renderTarget, OPACITY, width, height;
 
@@ -125,19 +126,38 @@
     }
 
     export function update() {
-        renderer.update(scene, camera);
+        // renderer.update(scene, camera);
         createASCII();
+        TWEEN.update();
         controls.update();
     }
 
     export function addSphereForTown(lat, long, color, name) {
-        let sphereGeometry = new THREE.SphereBufferGeometry(0.02);
+        let sphereGeometry = new THREE.SphereBufferGeometry(0.05);
         let sphereMaterial = new THREE.MeshBasicMaterial({ color: color });
         let sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
         sphereMesh.name = name;
         let positions = LLAtoXYZ(lat, long, 2.5);
         sphereMesh.position.set(positions[0], positions[1], positions[2]);
         scene.add(sphereMesh);
+    }
+
+    export function moveCamera(lat, long) {
+        let camPos = LLAtoXYZ(lat, long, controls.getDistance());
+        let tween = new TWEEN.Tween(camera.position);
+        tween
+            .to(
+                {
+                    x: camPos[0],
+                    y: camPos[1],
+                    z: camPos[2],
+                },
+                1000
+            )
+            .onUpdate(() => {
+                controls.update();
+            })
+            .start();
     }
 </script>
 

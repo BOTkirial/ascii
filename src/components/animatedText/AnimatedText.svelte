@@ -37,11 +37,7 @@
 
 <style>
     span {
-        /* taille du text */
         font-size: 1.1em;
-        /* text en dégradé de couleur */
-        background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #f6d365;
     }
 </style>
