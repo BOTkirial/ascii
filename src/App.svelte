@@ -15,13 +15,13 @@
 	async function fetchData() {
 		let data = [];
 		const n = 15; // le nombre d'entreprises récupérées
-		const rawData = await fetch("http://localhost:5555/data");
+		const rawData = await fetch("http://ascii.cedricmarinot.fr/data");
 		const rawDataJSON = await rawData.text();
 		const dataJSON = JSON.parse(rawDataJSON);
 		for (let cpt = 0; cpt < columnCount * n; cpt += columnCount) {
 			try {
 				const rawGeoData = await fetch(
-					"http://localhost:5555/api?search=" +
+					"http://ascii.cedricmarinot.fr/api?search=" +
 						encodeURI(dataJSON[cpt + 1])
 				);
 				const rawGeoDataJSON = await rawGeoData.json();
